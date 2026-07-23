@@ -1,68 +1,650 @@
 <!DOCTYPE html>
-<html>
-<head><title>FB UID Operator</title>
-<style>
-body{background:#f0f2f5;padding:20px;font-family:sans-serif}
-.container{max-width:950px;margin:auto;background:white;padding:25px;border-radius:16px}
-.header{text-align:center;border-bottom:2px solid #e4e6eb;padding-bottom:15px}
-.header h1{color:#1877f2}
-.btn{padding:12px 30px;border:none;border-radius:10px;font-weight:600;cursor:pointer}
-.btn-import{background:#8b5cf6;color:white}
-.btn-danger{background:#e41e3f;color:white}
-.account-card{background:#f7f8fa;border:1px solid #e4e6eb;border-radius:12px;padding:15px;margin:10px 0;display:flex;align-items:center;gap:15px;flex-wrap:wrap}
-.account-card .avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid #8b5cf6}
-.account-card .avatar img{width:100%;height:100%}
-.account-card .info{flex:1}
-.account-card .info .name{font-weight:700}
-.account-card .info .uid{color:#1877f2;cursor:pointer}
-.credit-link{text-align:center;margin-top:10px;padding:10px;background:#f0f2ff;border-radius:12px}
-.credit-link a{color:#1877f2;text-decoration:none;font-weight:700;font-size:18px}
-textarea{width:100%;height:120px;padding:10px;border:2px solid #ddd;border-radius:10px;margin:10px 0}
-.buttons{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-.stats{display:flex;gap:15px;margin:15px 0}
-.stat-box{flex:1;background:#f7f8fa;padding:12px;border-radius:10px;text-align:center}
-.stat-box .number{font-size:26px;font-weight:700;color:#1877f2}
-.toast{position:fixed;bottom:20px;right:20px;background:#1c1e21;color:white;padding:14px 28px;border-radius:12px;display:none}
-.toast.show{display:block}
-.toast.success{background:#42b72a}
-.toast.error{background:#e41e3f}
-</style>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>FB UID Operator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            padding: 18px 16px 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e4e6eb;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #1877f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header h1 span {
+            background: #8b5cf6;
+            color: #fff;
+            font-size: 13px;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #65676b;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .credit-link {
+            text-align: center;
+            margin: 12px 0 8px;
+            padding: 10px;
+            background: #f0f2ff;
+            border-radius: 14px;
+            border: 1px solid #d0d8f0;
+        }
+
+        .credit-link a {
+            color: #1877f2;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 17px;
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            margin: 14px 0;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: #f7f8fa;
+            padding: 12px 6px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid #e4e6eb;
+        }
+
+        .stat-box .number {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1877f2;
+        }
+
+        .stat-box .label {
+            font-size: 13px;
+            color: #65676b;
+            margin-top: 2px;
+        }
+
+        .import-area {
+            background: #f3f0ff;
+            padding: 16px 14px;
+            border-radius: 16px;
+            border: 2px dashed #8b5cf6;
+            margin: 12px 0 10px;
+        }
+
+        .import-area label {
+            font-weight: 700;
+            color: #5b21b6;
+            font-size: 15px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 110px;
+            padding: 12px;
+            border: 2px solid #e4e6eb;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            background: #fafafa;
+            transition: 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: #ffffff;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0 6px;
+        }
+
+        .btn {
+            flex: 1 1 auto;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .btn-import {
+            background: #8b5cf6;
+            color: #fff;
+        }
+
+        .btn-import:hover {
+            background: #7c3aed;
+        }
+
+        .btn-success {
+            background: #42b72a;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: #36a420;
+        }
+
+        .btn-danger {
+            background: #e41e3f;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #c91b36;
+        }
+
+        .account-list-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1c1e21;
+            margin: 18px 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-card {
+            background: #f7f8fa;
+            border: 1px solid #e4e6eb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            transition: 0.2s;
+        }
+
+        .account-card:hover {
+            background: #ffffff;
+            border-color: #8b5cf6;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.12);
+        }
+
+        .account-card .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #8b5cf6;
+            flex-shrink: 0;
+            background: #e4e6eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #65676b;
+        }
+
+        .account-card .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-card .info {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .account-card .info .name {
+            font-weight: 700;
+            font-size: 16px;
+            color: #1c1e21;
+        }
+
+        .account-card .info .uid {
+            color: #1877f2;
+            font-size: 13px;
+            font-family: monospace;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .account-card .info .pass {
+            color: #e41e3f;
+            font-size: 13px;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .account-card .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .account-card .actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-copy-uid {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-copy-uid:hover {
+            background: #2563eb;
+        }
+
+        .btn-copy-pass {
+            background: #f59e0b;
+            color: #fff;
+        }
+
+        .btn-copy-pass:hover {
+            background: #d97706;
+        }
+
+        .btn-del {
+            background: #e41e3f;
+            color: #fff;
+        }
+
+        .btn-del:hover {
+            background: #c91b36;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 16px;
+            color: #65676b;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1c1e21;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 14px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            display: none;
+            z-index: 999;
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .toast.success {
+            background: #42b72a;
+        }
+
+        .toast.error {
+            background: #e41e3f;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #65676b;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 14px 12px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .btn {
+                font-size: 13px;
+                padding: 10px 12px;
+                flex: 1 1 100%;
+            }
+
+            .account-card {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .account-card .avatar {
+                margin: 0 auto;
+            }
+
+            .account-card .actions {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
-<div class="header"><h1>📱 UID Operator <span style="background:#8b5cf6;color:white;padding:2px 14px;border-radius:20px;font-size:14px;">Unlimited</span></h1>
-<p>যেকোনো UID পেস্ট করুন</p>
-<div class="credit-link"><a href="#" onclick="event.preventDefault();alert('আমার কাছে কোনো তথ্য নেই 😊');">👤 Ahasan Habib</a></div>
+    <!-- Header -->
+    <div class="header">
+        <h1>📱 UID Operator <span>Unlimited</span></h1>
+        <p>যেকোনো UID পেস্ট করুন, নাম + ছবি অটো আসবে</p>
+        <div class="credit-link">
+            <a href="#" onclick="event.preventDefault(); alert('আমার কাছে কোনো তথ্য নেই 😊');">👤 Ahasan Habib</a>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-box">
+            <div class="number" id="totalCount">0</div>
+            <div class="label">📊 মোট অ্যাকাউন্ট</div>
+        </div>
+        <div class="stat-box">
+            <div class="number" id="activeCount">0</div>
+            <div class="label">✅ সক্রিয়</div>
+        </div>
+    </div>
+
+    <!-- Import Area -->
+    <div class="import-area">
+        <label>📥 UID & পাসওয়ার্ড ইম্পোর্ট করুন</label>
+        <textarea id="uidInput" placeholder="UID|পাসওয়ার্ড&#10;100068725368602|836899"></textarea>
+        <div class="buttons">
+            <button class="btn btn-import" onclick="importData()">📥 ইম্পোর্ট করুন</button>
+            <button class="btn btn-success" onclick="loadSample()">📥 নমুনা লোড</button>
+            <button class="btn btn-danger" onclick="clearAll()">🗑️ সব মুছুন</button>
+        </div>
+        <div class="hint">💡 প্রতিটি লাইনে একটি UID|পাসওয়ার্ড দিন</div>
+    </div>
+
+    <!-- Account List -->
+    <div class="account-list-title">
+        <span>👥 অ্যাকাউন্ট লিস্ট</span>
+        <span id="listCount" style="font-weight:400;font-size:14px;color:#65676b;">0 টি</span>
+    </div>
+    <div id="accountContainer">
+        <div class="empty-state">📭 কোনো অ্যাকাউন্ট নেই</div>
+    </div>
 </div>
-<div class="stats"><div class="stat-box"><div class="number" id="totalCount">0</div><div>মোট</div></div>
-<div class="stat-box"><div class="number" id="activeCount">0</div><div>সক্রিয়</div></div></div>
-<textarea id="uidInput" placeholder="UID|পাসওয়ার্ড&#10;100068725368602|836899"></textarea>
-<div class="buttons">
-<button class="btn btn-import" onclick="importData()">📥 ইম্পোর্ট করুন</button>
-<button class="btn btn-import" onclick="loadSample()" style="background:#42b72a;">📥 নমুনা লোড</button>
-<button class="btn btn-danger" onclick="clearAll()">🗑️ সব মুছুন</button>
-</div>
-<div id="accountContainer"><div style="text-align:center;padding:40px;color:#65676b;">📭 কোনো অ্যাকাউন্ট নেই</div></div>
-</div>
+
+<!-- Toast -->
 <div class="toast" id="toast"></div>
+
 <script>
-let accounts=[];
-function loadData(){try{const s=localStorage.getItem('fbAccounts');if(s){accounts=JSON.parse(s)}}catch(e){}render()}
-function saveData(){localStorage.setItem('fbAccounts',JSON.stringify(accounts));render()}
-function showToast(m,t='success'){const o=document.getElementById('toast');o.textContent=m;o.className='toast show '+t;clearTimeout(o._timeout);o._timeout=setTimeout(()=>o.classList.remove('show'),3000)}
-async function fetchProfile(uid){try{const r=await fetch(`https://graph.facebook.com/${uid}?fields=name`);if(r.ok){const d=await r.json();return{name:d.name||'User',picture:`https://graph.facebook.com/${uid}/picture?type=large`}}}catch(e){}return{name:'User',picture:`https://graph.facebook.com/${uid}/picture?type=large`}}
-async function importData(){const input=document.getElementById('uidInput').value.trim();if(!input){showToast('❌ ইনপুট দিন!','error');return}
-const lines=input.split('\n').filter(l=>l.trim());let added=0;for(const line of lines){let uid,pass;if(line.includes('|')){[uid,pass]=line.split('|').map(s=>s.trim())}else if(line.includes(',')){[uid,pass]=line.split(',').map(s=>s.trim())}else continue;if(uid&&pass&&!accounts.some(a=>a.uid===uid)){const p=await fetchProfile(uid);accounts.push({uid,password:pass,name:p.name,picture:p.picture});added++}}
-if(added>0){saveData();document.getElementById('uidInput').value='';showToast(`✅ ${added} টি যোগ হয়েছে!`)}else{showToast('⚠️ নতুন কিছু যোগ হয়নি','error')}}
-function loadSample(){const s=[{uid:'100068725368602',password:'836899',name:'Md Sayful Islam',picture:'https://graph.facebook.com/100068725368602/picture?type=large'},{uid:'100070825654360',password:'936505',name:'Md Mohibbullah',picture:'https://graph.facebook.com/100070825654360/picture?type=large'}];let a=0;s.forEach(d=>{if(!accounts.some(x=>x.uid===d.uid)){accounts.push({...d});a++}});saveData();showToast(`✅ ${a} টি নমুনা লোড!`)}
-function clearAll(){if(accounts.length===0){showToast('📭 খালি!','error');return}if(confirm('সব মুছবেন?')){accounts=[];saveData();showToast('🗑️ মুছে ফেলা হয়েছে!')}}
-function deleteAccount(i){if(confirm(`"${accounts[i].name}" ডিলিট?`)){accounts.splice(i,1);saveData();showToast('🗑️ ডিলিট!')}}
-function copyUID(uid,b){navigator.clipboard.writeText(uid);showToast('✅ UID কপি!');b.textContent='✅';setTimeout(()=>b.textContent='📋 UID',1000)}
-function copyPass(pass,b){navigator.clipboard.writeText(pass);showToast('✅ PASS কপি!');b.textContent='✅';setTimeout(()=>b.textContent='🔑 PASS',1000)}
-function openProfile(uid){window.open(`https://facebook.com/${uid}`,'_blank')}
-function render(){const c=document.getElementById('accountContainer');document.getElementById('totalCount').textContent=accounts.length;document.getElementById('activeCount').textContent=accounts.length;if(accounts.length===0){c.innerHTML='<div style="text-align:center;padding:40px;color:#65676b;">📭 কোনো অ্যাকাউন্ট নেই</div>';return}
-let h='';accounts.forEach((a,i)=>{const init=a.name?a.name.charAt(0).toUpperCase():'?';h+=`<div class="account-card"><div class="avatar"><img src="${a.picture}" onerror="this.parentElement.textContent='${init}'"></div><div class="info"><div class="name">${a.name}</div><div><span class="uid" onclick="openProfile('${a.uid}')">🆔 ${a.uid}</span> | <span style="color:#e41e3f;">🔑 ${a.password}</span></div></div><div><button style="background:#3b82f6;color:white;padding:4px 12px;border:none;border-radius:6px;cursor:pointer;" onclick="copyUID('${a.uid}',this)">📋 UID</button> <button style="background:#f59e0b;color:white;padding:4px 12px;border:none;border-radius:6px;cursor:pointer;" onclick="copyPass('${a.password}',this)">🔑 PASS</button> <button style="background:#e41e3f;color:white;padding:4px 12px;border:none;border-radius:6px;cursor:pointer;" onclick="deleteAccount(${i})">🗑️</button></div></div>`});c.innerHTML=h}
-loadData();
+    let accounts = [];
+
+    function loadData() {
+        try {
+            const saved = localStorage.getItem('fbAccounts');
+            if (saved) accounts = JSON.parse(saved);
+        } catch (e) {}
+        render();
+    }
+
+    function saveData() {
+        localStorage.setItem('fbAccounts', JSON.stringify(accounts));
+        render();
+    }
+
+    function showToast(msg, type = 'success') {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'toast show ' + type;
+        clearTimeout(t._timeout);
+        t._timeout = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    async function fetchProfile(uid) {
+        try {
+            const r = await fetch(`https://graph.facebook.com/${uid}?fields=name`);
+            if (r.ok) {
+                const d = await r.json();
+                return {
+                    name: d.name || `User_${uid.slice(-6)}`,
+                    picture: `https://graph.facebook.com/${uid}/picture?type=large`
+                };
+            }
+        } catch (e) {}
+        return {
+            name: `User_${uid.slice(-6)}`,
+            picture: `https://graph.facebook.com/${uid}/picture?type=large`
+        };
+    }
+
+    async function importData() {
+        const input = document.getElementById('uidInput').value.trim();
+        if (!input) {
+            showToast('❌ ইনপুট দিন!', 'error');
+            return;
+        }
+
+        const lines = input.split('\n').filter(l => l.trim());
+        let added = 0;
+
+        for (const line of lines) {
+            let uid, pass;
+            if (line.includes('|')) {
+                [uid, pass] = line.split('|').map(s => s.trim());
+            } else if (line.includes(',')) {
+                [uid, pass] = line.split(',').map(s => s.trim());
+            } else continue;
+
+            if (uid && pass && !accounts.some(a => a.uid === uid)) {
+                const profile = await fetchProfile(uid);
+                accounts.push({
+                    uid,
+                    password: pass,
+                    name: profile.name,
+                    picture: profile.picture
+                });
+                added++;
+            }
+        }
+
+        if (added > 0) {
+            saveData();
+            document.getElementById('uidInput').value = '';
+            showToast(`✅ ${added} টি অ্যাকাউন্ট যোগ হয়েছে!`);
+        } else {
+            showToast('⚠️ নতুন কিছু যোগ হয়নি', 'error');
+        }
+    }
+
+    function loadSample() {
+        const sample = [
+            { uid: '100068725368602', password: '836899', name: 'Md Sayful Islam', picture: 'https://graph.facebook.com/100068725368602/picture?type=large' },
+            { uid: '100070825654360', password: '936505', name: 'Md Mohibbullah', picture: 'https://graph.facebook.com/100070825654360/picture?type=large' },
+            { uid: '100076422283445', password: '694254', name: 'Md Sultan Mahmud', picture: 'https://graph.facebook.com/100076422283445/picture?type=large' },
+            { uid: '100087559524097', password: '01752557', name: 'Shafiq Tuhin', picture: 'https://graph.facebook.com/100087559524097/picture?type=large' }
+        ];
+
+        let added = 0;
+        sample.forEach(d => {
+            if (!accounts.some(a => a.uid === d.uid)) {
+                accounts.push({ ...d });
+                added++;
+            }
+        });
+        saveData();
+        showToast(`✅ ${added} টি নমুনা অ্যাকাউন্ট লোড হয়েছে!`);
+    }
+
+    function clearAll() {
+        if (accounts.length === 0) {
+            showToast('📭 খালি!', 'error');
+            return;
+        }
+        if (confirm('সব অ্যাকাউন্ট মুছে ফেলতে চান?')) {
+            accounts = [];
+            saveData();
+            showToast('🗑️ সব মুছে ফেলা হয়েছে!');
+        }
+    }
+
+    function deleteAccount(index) {
+        if (confirm(`"${accounts[index].name}" ডিলিট করবেন?`)) {
+            accounts.splice(index, 1);
+            saveData();
+            showToast('🗑️ ডিলিট!');
+        }
+    }
+
+    function copyUID(uid, btn) {
+        navigator.clipboard.writeText(uid).then(() => {
+            showToast('✅ UID কপি!');
+            btn.textContent = '✅';
+            setTimeout(() => btn.textContent = '📋 UID', 1200);
+        }).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = uid;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            showToast('✅ UID কপি!');
+            btn.textContent = '✅';
+            setTimeout(() => btn.textContent = '📋 UID', 1200);
+        });
+    }
+
+    function copyPass(pass, btn) {
+        navigator.clipboard.writeText(pass).then(() => {
+            showToast('✅ PASS কপি!');
+            btn.textContent = '✅';
+            setTimeout(() => btn.textContent = '🔑 PASS', 1200);
+        }).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = pass;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            showToast('✅ PASS কপি!');
+            btn.textContent = '✅';
+            setTimeout(() => btn.textContent = '🔑 PASS', 1200);
+        });
+    }
+
+    function openProfile(uid) {
+        window.open(`https://facebook.com/${uid}`, '_blank');
+    }
+
+    function render() {
+        const container = document.getElementById('accountContainer');
+        document.getElementById('totalCount').textContent = accounts.length;
+        document.getElementById('activeCount').textContent = accounts.length;
+        document.getElementById('listCount').textContent = accounts.length + ' টি';
+
+        if (accounts.length === 0) {
+            container.innerHTML = '<div class="empty-state">📭 কোনো অ্যাকাউন্ট নেই</div>';
+            return;
+        }
+
+        let html = '';
+        accounts.forEach((acc, i) => {
+            const initial = acc.name ? acc.name.charAt(0).toUpperCase() : '?';
+            html += `
+                <div class="account-card">
+                    <div class="avatar">
+                        <img src="${acc.picture}" onerror="this.parentElement.textContent='${initial}'">
+                    </div>
+                    <div class="info">
+                        <div class="name">${acc.name}</div>
+                        <div>
+                            <span class="uid" onclick="openProfile('${acc.uid}')">🆔 ${acc.uid}</span>
+                            <span style="color:#65676b;margin:0 4px;">|</span>
+                            <span class="pass">🔑 ${acc.password}</span>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-copy-uid" onclick="copyUID('${acc.uid}',this)">📋 UID</button>
+                        <button class="btn-copy-pass" onclick="copyPass('${acc.password}',this)">🔑 PASS</button>
+                        <button class="btn-del" onclick="deleteAccount(${i})">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    loadData();
 </script>
+
 </body>
 </html>
