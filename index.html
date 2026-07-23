@@ -2,16 +2,15 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FB UID Operator</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
         }
-
         body {
             background: #f0f2f5;
             padding: 12px;
@@ -20,9 +19,8 @@
             justify-content: center;
             align-items: flex-start;
         }
-
         .container {
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
             background: #ffffff;
             padding: 18px 16px 25px;
@@ -30,14 +28,12 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             margin: 0 auto;
         }
-
         .header {
             text-align: center;
             border-bottom: 2px solid #e4e6eb;
             padding-bottom: 12px;
             margin-bottom: 16px;
         }
-
         .header h1 {
             font-size: 24px;
             color: #1877f2;
@@ -47,7 +43,6 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-
         .header h1 span {
             background: #8b5cf6;
             color: #fff;
@@ -56,13 +51,11 @@
             border-radius: 30px;
             font-weight: 600;
         }
-
         .header p {
             color: #65676b;
             font-size: 14px;
             margin-top: 4px;
         }
-
         .credit-link {
             text-align: center;
             margin: 12px 0 8px;
@@ -71,7 +64,6 @@
             border-radius: 14px;
             border: 1px solid #d0d8f0;
         }
-
         .credit-link a {
             color: #1877f2;
             text-decoration: none;
@@ -80,13 +72,11 @@
             display: inline-block;
             padding: 0 10px;
         }
-
         .stats {
             display: flex;
             gap: 12px;
             margin: 14px 0;
         }
-
         .stat-box {
             flex: 1;
             background: #f7f8fa;
@@ -95,19 +85,16 @@
             text-align: center;
             border: 1px solid #e4e6eb;
         }
-
         .stat-box .number {
             font-size: 26px;
             font-weight: 700;
             color: #1877f2;
         }
-
         .stat-box .label {
             font-size: 13px;
             color: #65676b;
             margin-top: 2px;
         }
-
         .import-area {
             background: #f3f0ff;
             padding: 16px 14px;
@@ -115,7 +102,6 @@
             border: 2px dashed #8b5cf6;
             margin: 12px 0 10px;
         }
-
         .import-area label {
             font-weight: 700;
             color: #5b21b6;
@@ -123,7 +109,6 @@
             display: block;
             margin-bottom: 6px;
         }
-
         textarea {
             width: 100%;
             height: 110px;
@@ -136,20 +121,17 @@
             background: #fafafa;
             transition: 0.2s;
         }
-
         textarea:focus {
             outline: none;
             border-color: #8b5cf6;
             background: #ffffff;
         }
-
         .buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin: 12px 0 6px;
         }
-
         .btn {
             flex: 1 1 auto;
             padding: 12px 16px;
@@ -162,34 +144,27 @@
             text-align: center;
             min-width: 80px;
         }
-
         .btn-import {
             background: #8b5cf6;
             color: #fff;
         }
-
         .btn-import:hover {
             background: #7c3aed;
         }
-
         .btn-success {
             background: #42b72a;
             color: #fff;
         }
-
         .btn-success:hover {
             background: #36a420;
         }
-
         .btn-danger {
             background: #e41e3f;
             color: #fff;
         }
-
         .btn-danger:hover {
             background: #c91b36;
         }
-
         .account-list-title {
             font-size: 18px;
             font-weight: 700;
@@ -199,7 +174,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .account-card {
             background: #f7f8fa;
             border: 1px solid #e4e6eb;
@@ -212,13 +186,11 @@
             flex-wrap: wrap;
             transition: 0.2s;
         }
-
         .account-card:hover {
             background: #ffffff;
             border-color: #8b5cf6;
             box-shadow: 0 2px 10px rgba(139, 92, 246, 0.12);
         }
-
         .account-card .avatar {
             width: 48px;
             height: 48px;
@@ -234,24 +206,20 @@
             font-size: 18px;
             color: #65676b;
         }
-
         .account-card .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .account-card .info {
             flex: 1;
             min-width: 140px;
         }
-
         .account-card .info .name {
             font-weight: 700;
             font-size: 16px;
             color: #1c1e21;
         }
-
         .account-card .info .uid {
             color: #1877f2;
             font-size: 13px;
@@ -260,21 +228,24 @@
             text-decoration: underline;
             text-underline-offset: 2px;
         }
-
         .account-card .info .pass {
             color: #e41e3f;
             font-size: 13px;
             font-family: monospace;
             font-weight: 600;
         }
-
+        .account-card .info .ig {
+            color: #8b5cf6;
+            font-size: 13px;
+            font-family: monospace;
+            font-weight: 600;
+        }
         .account-card .actions {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
             margin-top: 4px;
         }
-
         .account-card .actions button {
             padding: 4px 12px;
             border: none;
@@ -284,40 +255,32 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .btn-copy-uid {
             background: #3b82f6;
             color: #fff;
         }
-
         .btn-copy-uid:hover {
             background: #2563eb;
         }
-
         .btn-copy-pass {
             background: #f59e0b;
             color: #fff;
         }
-
         .btn-copy-pass:hover {
             background: #d97706;
         }
-
         .btn-del {
             background: #e41e3f;
             color: #fff;
         }
-
         .btn-del:hover {
             background: #c91b36;
         }
-
         .empty-state {
             text-align: center;
             padding: 40px 16px;
             color: #65676b;
         }
-
         .toast {
             position: fixed;
             bottom: 24px;
@@ -335,20 +298,16 @@
             text-align: center;
             font-weight: 500;
         }
-
         .toast.show {
             display: block;
             animation: slideUp 0.3s ease;
         }
-
         .toast.success {
             background: #42b72a;
         }
-
         .toast.error {
             background: #e41e3f;
         }
-
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -359,38 +318,31 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
-
         .hint {
             font-size: 13px;
             color: #65676b;
             margin-top: 6px;
         }
-
         @media (max-width: 480px) {
             .container {
                 padding: 14px 12px;
             }
-
             .header h1 {
                 font-size: 20px;
             }
-
             .btn {
                 font-size: 13px;
                 padding: 10px 12px;
                 flex: 1 1 100%;
             }
-
             .account-card {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
             }
-
             .account-card .avatar {
                 margin: 0 auto;
             }
-
             .account-card .actions {
                 justify-content: center;
             }
@@ -403,7 +355,7 @@
     <!-- Header -->
     <div class="header">
         <h1>📱 UID Operator <span>Unlimited</span></h1>
-        <p>যেকোনো UID পেস্ট করুন, নাম + ছবি অটো আসবে</p>
+        <p>যেকোনো UID পেস্ট করুন, নাম + ছবি + IG আসবে</p>
         <div class="credit-link">
             <a href="#" onclick="event.preventDefault(); alert('আমার কাছে কোনো তথ্য নেই 😊');">👤 Ahasan Habib</a>
         </div>
@@ -472,17 +424,19 @@
 
     async function fetchProfile(uid) {
         try {
-            const r = await fetch(`https://graph.facebook.com/${uid}?fields=name`);
+            const r = await fetch(`https://graph.facebook.com/${uid}?fields=name,username`);
             if (r.ok) {
                 const d = await r.json();
                 return {
                     name: d.name || `User_${uid.slice(-6)}`,
+                    username: d.username || '',
                     picture: `https://graph.facebook.com/${uid}/picture?type=large`
                 };
             }
         } catch (e) {}
         return {
             name: `User_${uid.slice(-6)}`,
+            username: '',
             picture: `https://graph.facebook.com/${uid}/picture?type=large`
         };
     }
@@ -511,6 +465,7 @@
                     uid,
                     password: pass,
                     name: profile.name,
+                    username: profile.username,
                     picture: profile.picture
                 });
                 added++;
@@ -528,10 +483,10 @@
 
     function loadSample() {
         const sample = [
-            { uid: '100068725368602', password: '836899', name: 'Md Sayful Islam', picture: 'https://graph.facebook.com/100068725368602/picture?type=large' },
-            { uid: '100070825654360', password: '936505', name: 'Md Mohibbullah', picture: 'https://graph.facebook.com/100070825654360/picture?type=large' },
-            { uid: '100076422283445', password: '694254', name: 'Md Sultan Mahmud', picture: 'https://graph.facebook.com/100076422283445/picture?type=large' },
-            { uid: '100087559524097', password: '01752557', name: 'Shafiq Tuhin', picture: 'https://graph.facebook.com/100087559524097/picture?type=large' }
+            { uid: '100068725368602', password: '836899', name: 'Md Sayful Islam', username: 'sayful_ig', picture: 'https://graph.facebook.com/100068725368602/picture?type=large' },
+            { uid: '100070825654360', password: '936505', name: 'Md Mohibbullah', username: 'mohib_ig', picture: 'https://graph.facebook.com/100070825654360/picture?type=large' },
+            { uid: '100076422283445', password: '694254', name: 'Md Sultan Mahmud', username: 'sultan_ig', picture: 'https://graph.facebook.com/100076422283445/picture?type=large' },
+            { uid: '100087559524097', password: '01752557', name: 'Shafiq Tuhin', username: 'shafiq_ig', picture: 'https://graph.facebook.com/100087559524097/picture?type=large' }
         ];
 
         let added = 0;
@@ -619,6 +574,7 @@
         let html = '';
         accounts.forEach((acc, i) => {
             const initial = acc.name ? acc.name.charAt(0).toUpperCase() : '?';
+            const igDisplay = acc.username ? `@${acc.username}` : '❌ নেই';
             html += `
                 <div class="account-card">
                     <div class="avatar">
@@ -631,6 +587,7 @@
                             <span style="color:#65676b;margin:0 4px;">|</span>
                             <span class="pass">🔑 ${acc.password}</span>
                         </div>
+                        <div><span class="ig">📷 IG: ${igDisplay}</span></div>
                     </div>
                     <div class="actions">
                         <button class="btn-copy-uid" onclick="copyUID('${acc.uid}',this)">📋 UID</button>
