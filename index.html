@@ -5,380 +5,484 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FB UID Operator</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-        body{background:#f0f2f5;padding:20px}
-        .container{max-width:950px;margin:auto;background:white;padding:25px;border-radius:16px}
-        .header{text-align:center;border-bottom:2px solid #e4e6eb;padding-bottom:15px}
-        .header h1{color:#1877f2;font-size:28px}
-        .header h1 span{background:#8b5cf6;color:white;padding:2px 14px;border-radius:20px;font-size:14px;margin-left:8px}
-        .header p{color:#65676b;margin-top:5px}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+        body{background:#0a0a0f;padding:15px;color:#fff}
+        .container{max-width:800px;margin:auto}
         
-        /* Ahasan Habib Link Style */
-        .credit-link {
-            text-align: center;
-            margin-top: 8px;
-            padding: 10px;
-            background: linear-gradient(135deg, #f0f2ff, #e8edff);
-            border-radius: 12px;
-            border: 1px solid #d0d8f0;
-        }
-        .credit-link a {
-            color: #1877f2;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 8px;
-        }
-        .credit-link a:hover {
-            color: #8b5cf6;
-            background: rgba(139, 92, 246, 0.1);
-            transform: scale(1.05);
-        }
-        .credit-link .icon {
-            font-size: 20px;
-            margin-right: 6px;
-        }
+        .header{text-align:center;padding:20px 0;border-bottom:1px solid #1a1a2e}
+        .header h1{color:#1877f2;font-size:24px}
+        .header h1 span{background:#1877f2;color:#fff;padding:4px 15px;border-radius:20px;font-size:16px}
+        .header p{color:#888;font-size:13px;margin-top:5px}
         
-        .stats{display:flex;gap:15px;margin:15px 0}
-        .stat-box{flex:1;background:#f7f8fa;padding:12px;border-radius:10px;text-align:center}
-        .stat-box .number{font-size:26px;font-weight:700;color:#1877f2}
-        .btn{padding:12px 30px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:15px}
-        .btn-primary{background:#1877f2;color:white}
-        .btn-primary:hover{background:#166fe5}
-        .btn-import{background:#8b5cf6;color:white}
-        .btn-import:hover{background:#7c3aed}
-        .btn-danger{background:#e41e3f;color:white}
-        .btn-danger:hover{background:#c91b36}
-        .btn-success{background:#42b72a;color:white}
-        .btn-success:hover{background:#36a420}
-        .btn-outline{background:transparent;border:2px solid #8b5cf6;color:#8b5cf6}
-        .btn-outline:hover{background:#8b5cf6;color:white}
-        .account-card{background:#f7f8fa;border:1px solid #e4e6eb;border-radius:12px;padding:15px;margin:10px 0;display:flex;align-items:center;gap:15px;flex-wrap:wrap;transition:0.3s}
-        .account-card:hover{background:white;border-color:#8b5cf6;box-shadow:0 2px 12px rgba(139,92,246,0.15)}
-        .account-card .avatar{width:52px;height:52px;border-radius:50%;overflow:hidden;border:3px solid #8b5cf6;flex-shrink:0;background:#e4e6eb;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:#65676b}
-        .account-card .avatar img{width:100%;height:100%;object-fit:cover}
-        .account-card .info{flex:1;min-width:150px}
-        .account-card .info .name{font-weight:700;font-size:17px;color:#1c1e21}
-        .account-card .info .uid{color:#1877f2;font-size:14px;font-family:monospace;cursor:pointer;text-decoration:underline;text-decoration-color:#1877f2;text-underline-offset:2px}
-        .account-card .info .uid:hover{color:#8b5cf6;text-decoration-color:#8b5cf6}
-        .account-card .info .pass{color:#e41e3f;font-size:13px;font-family:monospace;font-weight:600}
-        .account-card .actions{display:flex;gap:6px;flex-wrap:wrap}
-        .account-card .actions button{padding:5px 14px;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500}
-        .btn-copy-uid{background:#3b82f6;color:white}
-        .btn-copy-uid:hover{background:#2563eb}
-        .btn-copy-pass{background:#f59e0b;color:white}
-        .btn-copy-pass:hover{background:#d97706}
-        .btn-del{background:#e41e3f;color:white}
-        .btn-del:hover{background:#c91b36}
-        .empty-state{text-align:center;padding:50px 20px;color:#65676b}
-        .empty-state .icon{font-size:50px;margin-bottom:10px}
-        .toast{position:fixed;bottom:20px;right:20px;background:#1c1e21;color:white;padding:14px 28px;border-radius:12px;display:none;z-index:999;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
-        .toast.show{display:block;animation:slideUp 0.3s}
-        .toast.success{background:#42b72a}
-        .toast.error{background:#e41e3f}
-        .toast.warning{background:#f59e0b}
-        @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-        textarea{width:100%;height:160px;padding:12px;border:2px solid #e4e6eb;border-radius:10px;font-family:monospace;font-size:14px;margin:10px 0;resize:vertical}
-        textarea:focus{outline:none;border-color:#8b5cf6}
-        .buttons{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-        .import-area{background:#f3f0ff;padding:18px;border-radius:12px;border:2px dashed #8b5cf6;margin:10px 0}
-        .import-area label{font-weight:700;color:#5b21b6;font-size:16px;display:block;margin-bottom:5px}
-        .import-area .hint{color:#65676b;font-size:13px;margin-top:6px}
-        .progress-bar{width:100%;height:6px;background:#e4e6eb;border-radius:3px;margin:8px 0;display:none;overflow:hidden}
-        .progress-bar .fill{height:100%;background:#8b5cf6;border-radius:3px;width:0%;transition:width 0.4s}
-        .status-text{font-size:13px;color:#65676b;margin:5px 0;min-height:22px}
-        @media(max-width:600px){.container{padding:15px}.account-card{flex-direction:column;text-align:center}.account-card .avatar{margin:0 auto}.buttons .btn{flex:1;justify-content:center;font-size:13px;padding:10px 14px}}
+        .uid-display-box{background:#16162a;border-radius:12px;padding:12px 18px;margin:12px 0;border:2px solid #1877f2;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .uid-display-box input{flex:1;background:transparent;border:none;color:#1877f2;font-size:18px;font-family:monospace;outline:none;min-width:150px}
+        .uid-display-box input::placeholder{color:#444;font-size:14px}
+        .uid-display-box .btn-sm{background:#1877f2;color:#fff;border:none;padding:8px 18px;border-radius:20px;cursor:pointer;font-weight:bold}
+        .uid-display-box .btn-sm:hover{background:#0d65d9}
+        .uid-display-box .btn-sm.outline{background:transparent;border:1px solid #2a2a4a;color:#888}
+        .uid-display-box .btn-sm.outline:hover{background:#2a2a4a;color:#fff}
+        
+        .search-box{background:#16162a;border-radius:30px;padding:12px 20px;margin:12px 0;border:1px solid #2a2a4a}
+        .search-box input{background:transparent;border:none;color:#fff;width:100%;font-size:15px;outline:none}
+        .search-box input::placeholder{color:#555}
+        
+        .upload-area{background:#16162a;border-radius:16px;padding:20px;margin:12px 0;border:1px dashed #2a2a4a;text-align:center}
+        .upload-area input{color:#fff;padding:8px;width:100%}
+        .btn-group{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+        
+        .btn{background:#1877f2;color:#fff;border:none;padding:10px 25px;border-radius:25px;cursor:pointer;font-weight:bold;transition:0.3s}
+        .btn:hover{background:#0d65d9;transform:scale(1.02)}
+        .btn-green{background:#25a35a}
+        .btn-green:hover{background:#1e8a4b}
+        .btn-red{background:#e74c3c}
+        .btn-red:hover{background:#c0392b}
+        .btn-outline{background:transparent;border:1px solid #2a2a4a;color:#aaa}
+        .btn-outline:hover{background:#2a2a4a;color:#fff}
+        .btn-copy{background:#2a2a4a;color:#fff;border:none;padding:4px 12px;border-radius:12px;cursor:pointer;font-size:11px}
+        .btn-copy:hover{background:#1877f2}
+        
+        .stats{display:flex;justify-content:space-between;background:#16162a;border-radius:12px;padding:12px 20px;margin:10px 0;border:1px solid #1a1a2e;flex-wrap:wrap}
+        .stats span{color:#888;font-size:13px}
+        .stats strong{color:#fff;font-size:16px}
+        
+        /* UID Cards */
+        .uid-card{background:#16162a;border-radius:12px;padding:15px;margin:10px 0;border-left:4px solid #1877f2;transition:0.3s}
+        .uid-card:hover{background:#1e1e3a;transform:translateX(5px)}
+        .uid-card .card-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+        .uid-card .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1877f2,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;color:#fff;flex-shrink:0}
+        .uid-card .card-name{flex:1;cursor:pointer}
+        .uid-card .card-name .name{font-size:16px;font-weight:bold;color:#fff}
+        .uid-card .card-name .uid{font-size:13px;color:#1877f2;font-family:monospace}
+        .uid-card .card-name .uid:hover{text-decoration:underline}
+        
+        .uid-card .card-body{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;padding:8px 0;border-top:1px solid #1a1a2e}
+        .uid-card .card-body .field{background:#0a0a0f;padding:4px 12px;border-radius:12px;display:flex;align-items:center;gap:6px;font-size:13px}
+        .uid-card .card-body .field .label{color:#888}
+        .uid-card .card-body .field .value{color:#fff}
+        .uid-card .card-body .field .copy-btn{background:transparent;border:none;color:#555;cursor:pointer;font-size:14px;padding:0 4px}
+        .uid-card .card-body .field .copy-btn:hover{color:#1877f2}
+        
+        .uid-card .card-status{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #1a1a2e}
+        .uid-card .card-status .status{font-size:12px;padding:2px 14px;border-radius:20px}
+        .uid-card .card-status .status.imported{background:#0a2a1a;color:#25a35a}
+        .uid-card .card-status .status.pending{background:#2a1a0a;color:#f0a030}
+        .uid-card .card-actions{display:flex;gap:6px}
+        
+        .click-hint{color:#555;font-size:11px;text-align:center;margin-top:4px}
+        
+        .modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px)}
+        .modal-content{background:#16162a;margin:8% auto;padding:0;width:92%;max-width:500px;border-radius:16px;border:1px solid #2a2a4a}
+        .modal-header{padding:18px 22px;border-bottom:1px solid #1a1a2e;display:flex;justify-content:space-between;align-items:center}
+        .modal-header h2{color:#1877f2;font-size:20px}
+        .modal-header .close{font-size:28px;cursor:pointer;color:#555;transition:0.3s}
+        .modal-header .close:hover{color:#fff}
+        .modal-body{padding:22px;max-height:400px;overflow-y:auto}
+        .modal-body .detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1a2e}
+        .modal-body .detail-row .label{color:#888}
+        .modal-body .detail-row .value{color:#fff;font-weight:bold}
+        .modal-footer{padding:15px 22px;border-top:1px solid #1a1a2e;display:flex;gap:10px;justify-content:flex-end}
+        
+        .progress-container{width:100%;background:#1a1a2e;border-radius:30px;height:8px;margin:10px 0;overflow:hidden}
+        .progress-bar{height:100%;background:linear-gradient(90deg,#1877f2,#25a35a);border-radius:30px;transition:width 0.3s;width:0%}
+        
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#25a35a;color:#fff;padding:12px 25px;border-radius:30px;font-size:14px;display:none;z-index:9999}
+        .toast.error{background:#e74c3c}
+        
+        @media(max-width:600px){.uid-card .card-body{flex-direction:column}}
     </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header">
-        <h1>📱 UID Operator <span>Unlimited</span></h1>
-        <p>যেকোনো UID পেস্ট করুন, নাম + ছবি অটো আসবে</p>
-        <!-- Ahasan Habib Link -->
-        <div class="credit-link">
-            <a href="#" onclick="event.preventDefault(); alert('আমার কাছে কোনো তথ্য নেই 😊');">
-                <span class="icon">👤</span> Ahasan Habib
-            </a>
+        <h1>FB UID <span>Operator</span></h1>
+        <p>Facebook UID & পাসওয়ার্ড ম্যানেজার</p>
+    </div>
+    
+    <!-- UID ডিসপ্লে বক্স -->
+    <div class="uid-display-box">
+        <span style="color:#888;font-size:14px;">🆔</span>
+        <input type="text" id="uidInput" placeholder="UID বসবে এখানে..." readonly>
+        <button onclick="copyUidFromInput()" class="btn-sm">📋 কপি</button>
+        <button onclick="openUidInFacebook()" class="btn-sm" style="background:#25a35a;">🌐 FB</button>
+        <button onclick="clearUidInput()" class="btn-sm outline">✖</button>
+    </div>
+    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Search নাম, UID বা পাসওয়ার্ড..." oninput="searchUid()">
+    </div>
+    
+    <div class="upload-area">
+        <input type="file" id="uidFile" accept=".txt,.json,.csv">
+        <div class="btn-group">
+            <button onclick="uploadFile()" class="btn btn-green">📤 ফাইল আপলোড</button>
+            <button onclick="openImportModal()" class="btn">📥 ইমপোর্ট</button>
+            <button onclick="exportUids()" class="btn btn-outline">📥 ডাউনলোড</button>
+            <button onclick="deleteAllUids()" class="btn btn-red">🗑️ সব ডিলিট</button>
         </div>
     </div>
     
     <div class="stats">
-        <div class="stat-box"><div class="number" id="totalCount">0</div><div class="label">📊 মোট অ্যাকাউন্ট</div></div>
-        <div class="stat-box"><div class="number" id="activeCount">0</div><div class="label">✅ সক্রিয়</div></div>
+        <span>📊 মোট: <strong id="totalUID">0</strong></span>
+        <span>✅ ইমপোর্টেড: <strong id="loadedUID">0</strong></span>
+        <span>⏳ পেন্ডিং: <strong id="pendingUID">0</strong></span>
     </div>
+    
+    <div id="uidCardContainer"></div>
+    <p class="click-hint">💡 কার্ডে ক্লিক করলে UID বক্সে বসবে | 🌐 Facebook এ ওপেন করতে UID তে ক্লিক করুন</p>
+</div>
 
-    <div class="import-area">
-        <label>📥 UID & পাসওয়ার্ড ইম্পোর্ট করুন</label>
-        <textarea id="uidInput" placeholder="প্রতি লাইনে একটি UID ও পাসওয়ার্ড দিন&#10;ফরম্যাট: UID|পাসওয়ার্ড&#10;&#10;উদাহরণ:&#10;100068725368602|836899&#10;100070825654360|936505"></textarea>
-        
-        <div class="progress-bar" id="progressBar"><div class="fill" id="progressFill"></div></div>
-        <div class="status-text" id="statusText">💡 UID পেস্ট করে ইম্পোর্ট করুন</div>
-        
-        <div class="buttons">
-            <button class="btn btn-import" onclick="importData()">📥 ইম্পোর্ট করুন</button>
-            <button class="btn btn-primary" onclick="loadSample()">📥 নমুনা লোড</button>
-            <button class="btn btn-danger" onclick="clearAll()">🗑️ সব মুছুন</button>
-            <button class="btn btn-outline" onclick="exportAll()">📤 সব এক্সপোর্ট</button>
-        </div>
-        
-        <div class="hint">
-            ⚡ <b>Unlimited:</b> যত খুশি UID পেস্ট করুন | Facebook থেকে আসল নাম + ছবি নিজেই আসবে
-        </div>
-    </div>
+<div id="toast" class="toast"></div>
 
-    <div style="margin-top:15px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-            <h3 style="color:#1c1e21;">👥 অ্যাকাউন্ট লিস্ট <span class="user-count" id="listCount">0 টি</span></h3>
+<!-- Detail Modal -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>👤 ডিটেইলস</h2>
+            <span class="close" onclick="closeDetailModal()">&times;</span>
         </div>
-        <div id="accountContainer"><div class="empty-state"><div class="icon">📭</div><h3>কোনো অ্যাকাউন্ট নেই</h3><p>উপরের বক্সে UID ও পাসওয়ার্ড যোগ করুন</p></div></div>
+        <div class="modal-body" id="detailBody">
+            <div class="detail-row"><span class="label">নাম</span><span class="value" id="detailName">--</span></div>
+            <div class="detail-row"><span class="label">UID</span><span class="value" id="detailUid">--</span></div>
+            <div class="detail-row"><span class="label">পাসওয়ার্ড</span><span class="value" id="detailPass">--</span></div>
+            <div class="detail-row"><span class="label">স্ট্যাটাস</span><span class="value" id="detailStatus">--</span></div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="copyDetailUid()" class="btn">📋 কপি UID</button>
+            <button onclick="copyDetailPass()" class="btn btn-green">🔑 কপি পাস</button>
+            <button onclick="openDetailInFb()" class="btn" style="background:#25a35a;">🌐 FB</button>
+            <button onclick="deleteDetailUid()" class="btn btn-red">🗑️ ডিলিট</button>
+            <button onclick="closeDetailModal()" class="btn btn-outline">বন্ধ</button>
+        </div>
     </div>
 </div>
-<div class="toast" id="toast"></div>
+
+<!-- Import Modal -->
+<div id="importModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📥 UID ইমপোর্ট</h2>
+            <span class="close" onclick="closeImportModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p style="text-align:center;color:#888;margin-bottom:10px;">ইমপোর্ট চলছে...</p>
+            <div class="progress-container"><div class="progress-bar" id="importProgress"></div></div>
+            <div style="display:flex;justify-content:space-between;color:#888;font-size:13px;">
+                <span id="progressText">0%</span>
+                <span id="estimatedTime">--</span>
+            </div>
+            <div id="importStatus" style="text-align:center;padding:8px;border-radius:8px;margin-top:10px;background:#1a1a2e;color:#f0a030;">🟡 প্রস্তুত...</div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="startImport()" class="btn">🚀 শুরু</button>
+            <button onclick="closeImportModal()" class="btn btn-outline">বাতিল</button>
+        </div>
+    </div>
+</div>
 
 <script>
-let accounts=[];
+let uidList = [];
+let passList = [];
+let nameList = [];
+let importedCount = 0;
+let isImporting = false;
 
-function loadData(){
-    try{
-        const saved=localStorage.getItem('fbAccounts');
-        if(saved){accounts=JSON.parse(saved)}
-    }catch(e){}
-    render();
+function showToast(msg, isError = false) {
+    let t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (isError ? ' error' : '');
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 3000);
 }
 
-function saveData(){
-    localStorage.setItem('fbAccounts',JSON.stringify(accounts));
-    render();
+// ===== UID ইনপুট ফাংশন =====
+function setUidInput(uid) {
+    document.getElementById('uidInput').value = uid;
 }
 
-function showToast(msg,type='success'){
-    const t=document.getElementById('toast');
-    t.textContent=msg;
-    t.className='toast show '+type;
-    clearTimeout(t._timeout);
-    t._timeout=setTimeout(()=>t.classList.remove('show'),4000);
+function copyUidFromInput() {
+    let val = document.getElementById('uidInput').value;
+    if (!val) { showToast('⚠️ কিছুই নেই!', true); return; }
+    navigator.clipboard.writeText(val).then(() => {
+        showToast('✅ UID কপি হয়েছে!');
+    });
 }
 
-function updateProgress(percent, text){
-    document.getElementById('progressBar').style.display='block';
-    document.getElementById('progressFill').style.width=percent+'%';
-    document.getElementById('statusText').textContent=text;
+function clearUidInput() {
+    document.getElementById('uidInput').value = '';
 }
 
-function hideProgress(){
-    document.getElementById('progressBar').style.display='none';
-    document.getElementById('statusText').textContent='✅ সম্পূর্ণ!';
-    setTimeout(()=>{
-        document.getElementById('statusText').textContent='💡 UID পেস্ট করে ইম্পোর্ট করুন';
-    },2000);
+// ===== Facebook এ ওপেন =====
+function openUidInFacebook() {
+    let uid = document.getElementById('uidInput').value;
+    if (!uid) { showToast('⚠️ কোন UID নেই!', true); return; }
+    window.open('https://facebook.com/' + uid, '_blank');
+    showToast('🌐 Facebook ওপেন হচ্ছে...');
 }
 
-async function fetchProfile(uid){
-    try{
-        const resp=await fetch(`https://graph.facebook.com/${uid}?fields=name`);
-        if(resp.ok){
-            const data=await resp.json();
-            return {
-                name: data.name || `User_${uid.slice(-6)}`,
-                picture: `https://graph.facebook.com/${uid}/picture?type=large`
-            };
-        }
-    }catch(e){}
-    return {
-        name: `User_${uid.slice(-6)}`,
-        picture: `https://graph.facebook.com/${uid}/picture?type=large`
-    };
+function openUidDirect(uid) {
+    if (!uid) return;
+    window.open('https://facebook.com/' + uid, '_blank');
 }
 
-async function importData(){
-    const input=document.getElementById('uidInput').value.trim();
-    if(!input){showToast('❌ ইনপুট দিন!','error');return;}
-    
-    const lines=input.split('\n').filter(l=>l.trim());
-    const newAccounts=[];
-    let duplicateCount=0;
-    
-    for(const line of lines){
-        let uid,pass;
-        if(line.includes('|')){[uid,pass]=line.split('|').map(s=>s.trim())}
-        else if(line.includes(',')){[uid,pass]=line.split(',').map(s=>s.trim())}
-        else continue;
-        
-        if(uid && pass){
-            if(accounts.some(a=>a.uid===uid) || newAccounts.some(a=>a.uid===uid)){
-                duplicateCount++;
-                continue;
+// ===== কার্ডে ক্লিক =====
+function onCardClick(index) {
+    let uid = uidList[index];
+    setUidInput(uid);
+    showToast('✅ UID বসেছে: ' + uid);
+}
+
+// ===== ডিলিট ফাংশন =====
+function deleteUid(index) {
+    if (!confirm('#' + (index+1) + ' ডিলিট করবেন?')) return;
+    uidList.splice(index, 1);
+    passList.splice(index, 1);
+    nameList.splice(index, 1);
+    if (importedCount > index) importedCount--;
+    renderCards();
+    updateStats();
+    showToast('🗑️ ডিলিট হয়েছে!');
+}
+
+function deleteAllUids() {
+    if (uidList.length === 0) { showToast('⚠️ কিছুই নেই!', true); return; }
+    if (!confirm('সব UID ডিলিট করবেন?')) return;
+    uidList = [];
+    passList = [];
+    nameList = [];
+    importedCount = 0;
+    renderCards();
+    updateStats();
+    clearUidInput();
+    showToast('🗑️ সব ডিলিট হয়েছে!');
+}
+
+function deleteDetailUid() {
+    let index = window._detailIndex;
+    closeDetailModal();
+    deleteUid(index);
+}
+
+// ===== ফাইল আপলোড =====
+function uploadFile() {
+    let file = document.getElementById('uidFile').files[0];
+    if (!file) { showToast('⚠️ ফাইল সিলেক্ট করুন!', true); return; }
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        let lines = e.target.result.split('\n').filter(l => l.trim() !== '');
+        uidList = []; passList = []; nameList = [];
+        lines.forEach(line => {
+            let parts = line.split('|').map(p => p.trim());
+            if (parts.length >= 2) {
+                uidList.push(parts[0]);
+                passList.push(parts[1] || '');
+                nameList.push(parts[2] || 'UID #' + (uidList.length+1));
+            } else if (parts.length === 1) {
+                uidList.push(parts[0]);
+                passList.push('');
+                nameList.push('UID #' + uidList.length);
             }
-            newAccounts.push({uid, password:pass});
-        }
-    }
-    
-    if(newAccounts.length===0){
-        if(duplicateCount>0){
-            showToast(`⚠️ ${duplicateCount} টি ডুপ্লিকেট UID বাদ দেওয়া হয়েছে`,'error');
-        }else{
-            showToast('⚠️ কোনো বৈধ UID পাওয়া যায়নি','error');
-        }
-        return;
-    }
-    
-    updateProgress(0, `⏳ ${newAccounts.length} টি অ্যাকাউন্ট লোড হচ্ছে...`);
-    
-    let loaded=0;
-    for(const acc of newAccounts){
-        const profile=await fetchProfile(acc.uid);
-        accounts.push({
-            uid: acc.uid,
-            password: acc.password,
-            name: profile.name,
-            picture: profile.picture
         });
-        loaded++;
-        const percent = Math.round((loaded/newAccounts.length)*100);
-        updateProgress(percent, `⏳ ${loaded}/${newAccounts.length} - নাম লোড হচ্ছে...`);
-    }
-    
-    saveData();
-    document.getElementById('uidInput').value='';
-    hideProgress();
-    let msg = `✅ ${loaded} টি অ্যাকাউন্ট ইম্পোর্ট হয়েছে!`;
-    if(duplicateCount>0) msg += ` (${duplicateCount} টি ডুপ্লিকেট বাদ)`;
-    showToast(msg);
-}
-
-function loadSample(){
-    const sampleData = [
-        {uid:"100068725368602", password:"836899", name:"Md Sayful Islam", picture:"https://graph.facebook.com/100068725368602/picture?type=large"},
-        {uid:"100070825654360", password:"936505", name:"Md Mohibbullah", picture:"https://graph.facebook.com/100070825654360/picture?type=large"},
-        {uid:"100076422283445", password:"694254", name:"Md Sultan Mahmud", picture:"https://graph.facebook.com/100076422283445/picture?type=large"},
-        {uid:"100087559524097", password:"01752557", name:"Shafiq Tuhin", picture:"https://graph.facebook.com/100087559524097/picture?type=large"}
-    ];
-    
-    let added=0;
-    sampleData.forEach(d=>{
-        if(!accounts.some(a=>a.uid===d.uid)){
-            accounts.push({...d});
-            added++;
+        if (uidList.length === 0) {
+            showToast('⚠️ কোন UID পাওয়া যায়নি! ফরম্যাট: UID|পাস|নাম', true);
+            return;
         }
-    });
-    saveData();
-    showToast(`✅ ${added} টি নমুনা অ্যাকাউন্ট লোড হয়েছে!`);
+        importedCount = 0;
+        document.getElementById('totalUID').textContent = uidList.length;
+        document.getElementById('loadedUID').textContent = '0';
+        document.getElementById('pendingUID').textContent = uidList.length;
+        renderCards();
+        showToast('✅ ' + uidList.length + ' টি UID পাওয়া গেছে!');
+    };
+    reader.readAsText(file);
 }
 
-function clearAll(){
-    if(accounts.length===0){showToast('📭 খালি!','error');return;}
-    if(confirm('সব অ্যাকাউন্ট মুছে ফেলতে চান?')){
-        accounts=[];
-        saveData();
-        showToast('🗑️ সব মুছে ফেলা হয়েছে!');
-    }
-}
-
-function deleteAccount(index){
-    if(confirm(`"${accounts[index].name}" ডিলিট করবেন?`)){
-        accounts.splice(index,1);
-        saveData();
-        showToast('🗑️ ডিলিট!');
-    }
-}
-
-function copyUID(uid,btn){
-    navigator.clipboard.writeText(uid).then(()=>{
-        showToast('✅ UID কপি!');
-        btn.textContent='✅';
-        setTimeout(()=>btn.textContent='📋 UID',1200);
-    }).catch(()=>{
-        const ta=document.createElement('textarea');
-        ta.value=uid;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showToast('✅ UID কপি!');
-        btn.textContent='✅';
-        setTimeout(()=>btn.textContent='📋 UID',1200);
-    });
-}
-
-function copyPass(pass,btn){
-    navigator.clipboard.writeText(pass).then(()=>{
-        showToast('✅ PASS কপি!');
-        btn.textContent='✅';
-        setTimeout(()=>btn.textContent='🔑 PASS',1200);
-    }).catch(()=>{
-        const ta=document.createElement('textarea');
-        ta.value=pass;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showToast('✅ PASS কপি!');
-        btn.textContent='✅';
-        setTimeout(()=>btn.textContent='🔑 PASS',1200);
-    });
-}
-
-function exportAll(){
-    if(accounts.length===0){showToast('📭 এক্সপোর্ট করার কিছু নেই!','error');return;}
-    let text = accounts.map((a,i) => `${i+1}. ${a.name} | UID: ${a.uid} | PASS: ${a.password}`).join('\n');
-    navigator.clipboard.writeText(text).then(()=>{
-        showToast(`📤 ${accounts.length} টি অ্যাকাউন্ট কপি হয়েছে!`);
-    }).catch(()=>{
-        document.getElementById('uidInput').value = text;
-        document.getElementById('uidInput').select();
-        document.execCommand('copy');
-        showToast(`📤 ${accounts.length} টি অ্যাকাউন্ট কপি হয়েছে!`);
-    });
-}
-
-// UID ক্লিক করলে Facebook প্রোফাইল ওপেন হবে
-function openProfile(uid){
-    window.open(`https://facebook.com/${uid}`, '_blank');
-}
-
-function render(){
-    const container=document.getElementById('accountContainer');
-    document.getElementById('totalCount').textContent=accounts.length;
-    document.getElementById('activeCount').textContent=accounts.length;
-    document.getElementById('listCount').textContent=accounts.length+' টি';
-    
-    if(accounts.length===0){
-        container.innerHTML='<div class="empty-state"><div class="icon">📭</div><h3>কোনো অ্যাকাউন্ট নেই</h3><p>উপরের বক্সে UID ও পাসওয়ার্ড যোগ করুন</p></div>';
-        return;
-    }
-    
-    let html='';
-    accounts.forEach((acc,i)=>{
-        const initial = acc.name ? acc.name.charAt(0).toUpperCase() : '?';
-        html+=`
-        <div class="account-card">
-            <div class="avatar">
-                <img src="${acc.picture}" onerror="this.style.display='none';this.parentElement.textContent='${initial}'">
+// ===== কার্ড রেন্ডার =====
+function renderCards() {
+    let container = document.getElementById('uidCardContainer');
+    container.innerHTML = '';
+    uidList.forEach((uid, index) => {
+        let pass = passList[index] || '';
+        let name = nameList[index] || 'UID #' + (index+1);
+        let initial = name.charAt(0).toUpperCase() || 'U';
+        let isImported = index < importedCount;
+        
+        let card = document.createElement('div');
+        card.className = 'uid-card';
+        card.dataset.index = index;
+        card.innerHTML = `
+            <div class="card-top">
+                <div class="avatar">${initial}</div>
+                <div class="card-name" onclick="onCardClick(${index})">
+                    <div class="name">${name}</div>
+                    <div class="uid" onclick="event.stopPropagation();openUidDirect('${uid}')">🌐 ${uid}</div>
+                </div>
+                <span class="status ${isImported ? 'imported' : 'pending'}">${isImported ? '✅' : '⏳'}</span>
             </div>
-            <div class="info">
-                <div class="name">${acc.name}</div>
-                <div>
-                    <span class="uid" onclick="openProfile('${acc.uid}')">🆔 ${acc.uid}</span>
-                    <span style="color:#65676b;margin:0 4px;">|</span>
-                    <span class="pass">🔑 ${acc.password}</span>
+            <div class="card-body" onclick="onCardClick(${index})">
+                <div class="field">
+                    <span class="label">🔑 পাস:</span>
+                    <span class="value">${pass || '----'}</span>
+                    ${pass ? `<button class="copy-btn" onclick="event.stopPropagation();copyText('${pass}','পাস')">📋</button>` : ''}
+                </div>
+                <div class="field">
+                    <span class="label">🆔 UID:</span>
+                    <span class="value">${uid}</span>
+                    <button class="copy-btn" onclick="event.stopPropagation();copyText('${uid}','UID')">📋</button>
                 </div>
             </div>
-            <div class="actions">
-                <button class="btn-copy-uid" onclick="copyUID('${acc.uid}',this)">📋 UID</button>
-                <button class="btn-copy-pass" onclick="copyPass('${acc.password}',this)">🔑 PASS</button>
-                <button class="btn-del" onclick="deleteAccount(${i})">🗑️</button>
+            <div class="card-status">
+                <span>#${index+1}</span>
+                <div class="card-actions">
+                    <button onclick="event.stopPropagation();openDetail(${index})" class="btn-copy">👁️</button>
+                    <button onclick="event.stopPropagation();openUidDirect('${uid}')" class="btn-copy" style="background:#25a35a;">🌐</button>
+                    <button onclick="event.stopPropagation();deleteUid(${index})" class="btn-copy" style="background:#e74c3c;">🗑️</button>
+                </div>
             </div>
-        </div>`;
+        `;
+        container.appendChild(card);
     });
-    container.innerHTML=html;
+    updateStats();
 }
 
-loadData();
+function updateStats() {
+    document.getElementById('totalUID').textContent = uidList.length;
+    document.getElementById('loadedUID').textContent = importedCount;
+    document.getElementById('pendingUID').textContent = uidList.length - importedCount;
+}
+
+// ===== কপি =====
+function copyText(text, label) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('✅ ' + label + ' কপি হয়েছে!');
+    }).catch(() => {
+        let ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast('✅ ' + label + ' কপি হয়েছে!');
+    });
+}
+
+// ===== ডিটেইলস =====
+function openDetail(index) {
+    document.getElementById('detailName').textContent = nameList[index] || 'UID #' + (index+1);
+    document.getElementById('detailUid').textContent = uidList[index];
+    document.getElementById('detailPass').textContent = passList[index] || '----';
+    document.getElementById('detailStatus').textContent = index < importedCount ? '✅ ইমপোর্টেড' : '⏳ পেন্ডিং';
+    document.getElementById('detailModal').style.display = 'block';
+    window._detailIndex = index;
+}
+
+function closeDetailModal() {
+    document.getElementById('detailModal').style.display = 'none';
+}
+
+function copyDetailUid() {
+    copyText(document.getElementById('detailUid').textContent, 'UID');
+}
+
+function copyDetailPass() {
+    let pass = document.getElementById('detailPass').textContent;
+    if (pass && pass !== '----') {
+        copyText(pass, 'পাসওয়ার্ড');
+    } else {
+        showToast('⚠️ পাসওয়ার্ড নেই!', true);
+    }
+}
+
+function openDetailInFb() {
+    let uid = document.getElementById('detailUid').textContent;
+    if (uid && uid !== '--') {
+        openUidDirect(uid);
+    } else {
+        showToast('⚠️ কোন UID নেই!', true);
+    }
+}
+
+// ===== সার্চ =====
+function searchUid() {
+    let q = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.querySelectorAll('.uid-card');
+    cards.forEach(card => {
+        let text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? 'block' : 'none';
+    });
+}
+
+// ===== ইমপোর্ট =====
+function openImportModal() {
+    if (uidList.length === 0) { showToast('⚠️ আগে ফাইল আপলোড করুন!', true); return; }
+    document.getElementById('importModal').style.display = 'block';
+    document.getElementById('importProgress').style.width = '0%';
+    document.getElementById('progressText').textContent = '0%';
+    document.getElementById('estimatedTime').textContent = '--';
+    document.getElementById('importStatus').textContent = '🟡 প্রস্তুত...';
+    document.getElementById('importStatus').style.background = '#1a1a2e';
+    document.getElementById('importStatus').style.color = '#f0a030';
+}
+
+function closeImportModal() {
+    document.getElementById('importModal').style.display = 'none';
+    isImporting = false;
+}
+
+function startImport() {
+    if (isImporting) return;
+    if (uidList.length === 0) { showToast('⚠️ কোন UID নেই!', true); return; }
+    importedCount = 0;
+    isImporting = true;
+    document.getElementById('importStatus').textContent = '🟢 ইমপোর্ট চলছে...';
+    document.getElementById('importStatus').style.background = '#0a2a1a';
+    document.getElementById('importStatus').style.color = '#25a35a';
+    simulateImport();
+}
+
+function simulateImport() {
+    if (!isImporting) return;
+    if (importedCount >= uidList.length) {
+        document.getElementById('importStatus').textContent = '✅ সম্পূর্ণ!';
+        document.getElementById('importStatus').style.background = '#0a2a1a';
+        document.getElementById('importStatus').style.color = '#25a35a';
+        document.getElementById('estimatedTime').textContent = 'সমাপ্ত!';
+        document.getElementById('importProgress').style.width = '100%';
+        document.getElementById('progressText').textContent = '100%';
+        isImporting = false;
+        renderCards();
+        setTimeout(closeImportModal, 2000);
+        showToast('🎉 সব UID ইমপোর্ট সম্পূর্ণ!');
+        return;
+    }
+    let batch = Math.max(1, Math.floor(uidList.length / 80));
+    importedCount = Math.min(importedCount + batch, uidList.length);
+    let pct = Math.round((importedCount / uidList.length) * 100);
+    document.getElementById('importProgress').style.width = pct + '%';
+    document.getElementById('progressText').textContent = pct + '%';
+    renderCards();
+    setTimeout(simulateImport, 120);
+}
+
+function exportUids() {
+    if (uidList.length === 0) { showToast('⚠️ কোন UID নেই!', true); return; }
+    let text = uidList.map((uid, i) => {
+        let pass = passList[i] || '';
+        let name = nameList[i] || '';
+        return [uid, pass, name].filter(Boolean).join(' | ');
+    }).join('\n');
+    let blob = new Blob([text], {type: 'text/plain'});
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'uids.txt';
+    a.click();
+    showToast('✅ ডাউনলোড হয়েছে!');
+}
+
+window.onclick = function(e) {
+    if (e.target === document.getElementById('detailModal')) closeDetailModal();
+    if (e.target === document.getElementById('importModal')) closeImportModal();
+}
 </script>
 </body>
 </html>
